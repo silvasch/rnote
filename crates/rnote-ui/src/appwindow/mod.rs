@@ -163,7 +163,7 @@ impl RnAppWindow {
         if self.app().settings_schema_found() {
             // Saving all state
             if let Err(e) = self.save_to_settings() {
-                log::error!("Failed to save appwindow to settings, , Err: {e:?}");
+                log::error!("Failed to save appwindow to settings, Err: {e:?}");
             }
         }
 
@@ -272,7 +272,7 @@ impl RnAppWindow {
                 .canvas()
                 .load_engine_config_from_settings(&app_settings)
             {
-                log::error!("failed to load engine config for initial tab, Err: {e:?}");
+                log::error!("Failed to load engine config for initial tab, Err: {e:?}");
             }
         } else {
             log::warn!("Could not load settings for initial tab. Settings schema not found.");

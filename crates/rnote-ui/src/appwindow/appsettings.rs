@@ -22,7 +22,7 @@ impl RnAppWindow {
 
                 if let Err(e) = app_settings
                     .set_string("color-scheme", &color_scheme) {
-                        log::error!("failed to set setting `color-scheme`, Err: {e:?}");
+                        log::error!("Failed to set setting `color-scheme`, Err: {e:?}");
                     }
             }),
         );
@@ -253,6 +253,16 @@ impl RnAppWindow {
             .set_mapping(gdk_color_set_mapping)
             .get_no_changes()
             .build();
+        app_settings
+            .bind(
+                "colorpicker-color-9",
+                &self.overlays().colorpicker().setter_9(),
+                "color",
+            )
+            .mapping(gdk_color_mapping)
+            .set_mapping(gdk_color_set_mapping)
+            .get_no_changes()
+            .build();
 
         // brush stroke widths
         app_settings
@@ -463,7 +473,7 @@ impl RnAppWindow {
             glib::source::timeout_add_seconds_local(
                 Self::PERIODIC_CONFIGSAVE_INTERVAL, clone!(@weak app_settings, @weak self as appwindow => @default-return glib::ControlFlow::Break, move || {
                     if let Err(e) = appwindow.active_tab_wrapper().canvas().save_engine_config(&app_settings) {
-                        log::error!("saving engine config in periodic save task failed , Err: {e:?}");
+                        log::error!("Saving engine config in periodic save task failed , Err: {e:?}");
                     }
 
                     glib::ControlFlow::Continue

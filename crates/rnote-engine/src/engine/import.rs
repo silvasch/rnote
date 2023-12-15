@@ -196,8 +196,10 @@ impl Engine {
                 VectorImage::from_svg_str(&svg_str, pos, None)
             };
 
-            if let Err(_data) = oneshot_sender.send(result()) {
-                log::error!("sending result to receiver in generate_vectorimage_from_bytes() failed. Receiver already dropped");
+            if oneshot_sender.send(result()).is_err() {
+                log::error!(
+                    "Sending result to receiver while generating VectorImage from bytes failed. Receiver already dropped."
+                );
             }
         });
 
@@ -219,8 +221,10 @@ impl Engine {
                 BitmapImage::from_image_bytes(&bytes, pos, None)
             };
 
-            if let Err(_data) = oneshot_sender.send(result()) {
-                log::error!("sending result to receiver in generate_bitmapimage_from_bytes() failed. Receiver already dropped");
+            if oneshot_sender.send(result()).is_err() {
+                log::error!(
+                    "Sending result to receiver while generating BitmapImage from bytes failed. Receiver already dropped."
+                );
             }
         });
 
@@ -274,8 +278,8 @@ impl Engine {
                 }
             };
 
-            if let Err(_data) = oneshot_sender.send(result()) {
-                log::error!("sending result to receiver in import_pdf_bytes() failed. Receiver already dropped");
+            if oneshot_sender.send(result()).is_err() {
+                log::error!("Sending result to receiver while importing Pdf bytes failed. Receiver already dropped");
             }
         });
 

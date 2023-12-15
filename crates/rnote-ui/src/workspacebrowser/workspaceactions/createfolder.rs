@@ -44,7 +44,7 @@ pub(crate) fn create_folder(workspacebrowser: &RnWorkspaceBrowser) -> gio::Simpl
 
             popover.popup();
         } else {
-            log::warn!("can't create new folder when there currently is no workspace selected");
+            log::warn!("Can't create new folder when there currently is no workspace selected");
         }
     }));
 
@@ -83,7 +83,7 @@ fn connect_apply_button(
             log::error!("Couldn't create new folder wit name `{}`, it already exists.", entry.text().as_str());
         } else {
             if let Err(e) = fs_extra::dir::create(new_folder_path, false) {
-                log::error!("Couldn't create folder: {e:?}");
+                log::error!("Couldn't create folder, Err: {e:?}");
             }
 
             popover.popdown();
