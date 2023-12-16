@@ -1,5 +1,5 @@
 // Imports
-use crate::{config, dialogs, RnAppWindow, RnCanvas};
+use crate::{config, dialogs, RnAppWindow, RnCanvas, RnSettingsWindow};
 use gettextrs::gettext;
 use gtk4::{
     gdk, gio, glib, glib::clone, prelude::*, PrintOperation, PrintOperationAction, Unit,
@@ -168,10 +168,9 @@ impl RnAppWindow {
         self.add_action(&action_drawing_pad_pressed_button_3);
 
         // Open settings
-        action_open_settings.connect_activate(clone!(@weak self as appwindow => move |_, _| {
-            appwindow.sidebar().sidebar_stack().set_visible_child_name("settings_page");
-            appwindow.split_view().set_show_sidebar(true);
-        }));
+        action_open_settings.connect_activate(move |_, _| {
+            RnSettingsWindow::new().present();
+        });
 
         // About Dialog
         action_about.connect_activate(clone!(@weak self as appwindow => move |_, _| {
