@@ -21,10 +21,6 @@ mod imp {
         pub(crate) app_restart_toast_singleton: RefCell<Option<adw::Toast>>,
 
         #[template_child]
-        pub(crate) settings_scroller: TemplateChild<ScrolledWindow>,
-        #[template_child]
-        pub(crate) general_autosave_row: TemplateChild<adw::SwitchRow>,
-        #[template_child]
         pub(crate) general_autosave_interval_secs_row: TemplateChild<adw::SpinRow>,
         #[template_child]
         pub(crate) general_show_scrollbars_row: TemplateChild<adw::SwitchRow>,
