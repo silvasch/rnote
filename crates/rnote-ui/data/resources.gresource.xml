@@ -207,6 +207,9 @@
         <file compressed="true">icons/scalable/actions/zoom-out-symbolic.svg</file>
         <file compressed="true">icons/scalable/apps/rnote-devel.svg</file>
         <file compressed="true">icons/scalable/apps/rnote.svg</file>
+        <file compressed="true">icons/scalable/actions/general-properties-symbolic.svg</file>
+        <file compressed="true">icons/scalable/actions/rich-text-symbolic.svg</file>
+        <file compressed="true">icons/scalable/actions/keyboard-shortcuts-symbolic.svg</file>
         <file compressed="true">icons/scalable/mimetypes/application-rnote.svg</file>
         <file compressed="true">icons/symbolic/apps/rnote-symbolic.svg</file>
     </gresource>
