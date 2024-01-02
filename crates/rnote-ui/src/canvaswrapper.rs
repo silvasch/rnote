@@ -23,6 +23,8 @@ struct Connections {
 }
 
 mod imp {
+    use gtk4::GestureClick;
+
     use super::*;
 
     #[derive(Debug, CompositeTemplate)]
@@ -43,6 +45,7 @@ mod imp {
         pub(crate) canvas_alt_drag_gesture: GestureDrag,
         pub(crate) canvas_alt_shift_drag_gesture: GestureDrag,
         pub(crate) touch_two_finger_long_press_gesture: GestureLongPress,
+        pub(crate) touch_double_tap_gesture: GestureClick,
 
         #[template_child]
         pub(crate) scroller: TemplateChild<ScrolledWindow>,
@@ -109,6 +112,11 @@ mod imp {
                 .propagation_phase(PropagationPhase::Capture)
                 .build();
 
+            let touch_double_tap_gesture = GestureClick::builder()
+                .name("touch_double_tap_gesture")
+                .touch_only(true)
+                .build();
+
             Self {
                 connections: RefCell::new(Connections::default()),
                 canvas_touch_drawing_handler: RefCell::new(None),
@@ -125,6 +133,7 @@ mod imp {
                 canvas_alt_drag_gesture,
                 canvas_alt_shift_drag_gesture,
                 touch_two_finger_long_press_gesture,
+                touch_double_tap_gesture,
 
                 scroller: TemplateChild::<ScrolledWindow>::default(),
                 canvas: TemplateChild::<RnCanvas>::default(),
@@ -169,6 +178,8 @@ mod imp {
                 .add_controller(self.canvas_alt_shift_drag_gesture.clone());
             self.scroller
                 .add_controller(self.touch_two_finger_long_press_gesture.clone());
+            self.scroller
+                .add_controller(self.touch_double_tap_gesture.clone());
 
             // group
             self.touch_two_finger_long_press_gesture
@@ -597,6 +608,17 @@ mod imp {
                             // but it is not clear how to refactor it while not regressing the fix 4c33594 for #595
                             #[allow(deprecated)]
                             gesture.set_sequence_state(es, EventSequenceState::Denied);
+                        }
+                    }),
+                );
+            }
+
+            {
+                // Shortcut with touch double tap.
+                self.touch_double_tap_gesture.connect_pressed(
+                    clone!(@weak obj as canvaswrapper => move |_gesture, n_press, x, y| {
+                        if n_press == 2 {
+                            tracing::debug!("touch double tap at {}, {}", x, y);
                         }
                     }),
                 );
